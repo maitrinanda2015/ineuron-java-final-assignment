@@ -1,0 +1,1698 @@
+JAVA
+
+1. Write a Java program that uses polymorphism by defining an interface called Shape
+with methods to calculate the area and perimeter of a shape. Then create classes
+that implement the Shape interface for different types of shapes, such as circles and
+triangles.
+
+ans-:
+// Shape interface
+interface Shape {
+    double calculateArea();
+    double calculatePerimeter();
+}
+
+// Circle class implementing Shape interface
+class Circle implements Shape {
+    private double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    public double calculateArea() {
+        return Math.PI * radius * radius;
+    }
+
+    public double calculatePerimeter() {
+        return 2 * Math.PI * radius;
+    }
+}
+
+// Triangle class implementing Shape interface
+class Triangle implements Shape {
+    private double side1;
+    private double side2;
+    private double side3;
+
+    public Triangle(double side1, double side2, double side3) {
+        this.side1 = side1;
+        this.side2 = side2;
+        this.side3 = side3;
+    }
+
+    public double calculateArea() {
+        // Using Heron's formula to calculate area
+        double semiPerimeter = (side1 + side2 + side3) / 2;
+        return Math.sqrt(semiPerimeter * (semiPerimeter - side1) * (semiPerimeter - side2) * (semiPerimeter - side3));
+    }
+
+    public double calculatePerimeter() {
+        return side1 + side2 + side3;
+    }
+}
+
+// Main class
+public class PolymorphismExample {
+    public static void main(String[] args) {
+        Shape circle = new Circle(5);
+        System.out.println("Circle - Area: " + circle.calculateArea());
+        System.out.println("Circle - Perimeter: " + circle.calculatePerimeter());
+
+        Shape triangle = new Triangle(3, 4, 5);
+        System.out.println("Triangle - Area: " + triangle.calculateArea());
+        System.out.println("Triangle - Perimeter: " + triangle.calculatePerimeter());
+    }
+}
+2. Write a Java program to invoke parent class constructor from a child class. Create
+Child class object and parent class constructor must be invoked. Demonstrate by
+writing a program. Also explain key points about Constructor.
+ans-:
+// Parent class
+class Parent {
+    public Parent() {
+        System.out.println("Parent class constructor invoked");
+    }
+}
+
+// Child class
+class Child extends Parent {
+    public Child() {
+        super(); // Invoking parent class constructor
+        System.out.println("Child class constructor invoked");
+    }
+}
+
+// Main class
+public class ConstructorInvocationExample {
+    public static void main(String[] args) {
+        Child child = new Child();
+    }
+}
+
+In this program, we have a Parent class with a default constructor, and a Child class that extends the Parent class. The Child class has its own default constructor, which invokes the parent class constructor using super().
+
+When we create an object of the Child class (Child child = new Child();), both the parent class constructor and the child class constructor are invoked. The super() statement in the child class constructor ensures that the parent class constructor is called before executing the child class constructor.
+
+Key points about Constructors:
+
+Constructors are special methods in a class that are used to initialize objects.
+Constructors have the same name as the class and do not have a return type, not even void.
+Constructors are called automatically when an object is created using the new keyword.
+If a class does not define any constructors, a default constructor with no arguments is provided by the Java compiler.
+Constructors can be overloaded, meaning a class can have multiple constructors with different parameters.
+To invoke a parent class constructor, the super() keyword is used in the child class constructor. It should be the first statement in the constructor body.
+If a constructor in a child class does not explicitly invoke a parent class constructor using super(), the compiler automatically inserts a call to the parent class default constructor (if available).
+If the parent class does not have a default constructor, the child class constructor must explicitly call one of the parent class constructors using super().
+By using constructors effectively, we can ensure proper initialization of objects and establish the desired relationships between parent and child classes.
+
+
+3. Write a Java programme that takes an integer from the user and throws an exception
+if it is negative.Demonstrate Exception handling of same program as solution.
+ans-:
+import java.util.Scanner;
+
+public class NegativeIntegerExceptionExample {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter an integer: ");
+        
+        try {
+            int number = scanner.nextInt();
+            if (number < 0) {
+                throw new IllegalArgumentException("Negative numbers are not allowed!");
+            }
+            
+            System.out.println("Entered number: " + number);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Exception caught: " + e.getMessage());
+        } finally {
+            scanner.close();
+        }
+    }
+}
+Enter an integer: -5
+Exception caught: Negative numbers are not allowed!
+4. Create a Java program that simulates a bank account. The program should allow
+users to deposit and withdraw money, check their balance.
+ans-:
+import java.util.Scanner;
+
+public class BankAccountSimulation {
+    private double balance;
+
+    public BankAccountSimulation() {
+        balance = 0.0;
+    }
+
+    public void deposit(double amount) {
+        balance += amount;
+        System.out.println("Deposit successful. Current balance: " + balance);
+    }
+
+    public void withdraw(double amount) {
+        if (amount > balance) {
+            System.out.println("Insufficient funds. Current balance: " + balance);
+        } else {
+            balance -= amount;
+            System.out.println("Withdrawal successful. Current balance: " + balance);
+        }
+    }
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public static void main(String[] args) {
+        BankAccountSimulation account = new BankAccountSimulation();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\nBank Account Simulation");
+            System.out.println("1. Deposit");
+            System.out.println("2. Withdraw");
+            System.out.println("3. Check Balance");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
+
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter the amount to deposit: ");
+                    double depositAmount = scanner.nextDouble();
+                    account.deposit(depositAmount);
+                    break;
+                case 2:
+                    System.out.print("Enter the amount to withdraw: ");
+                    double withdrawAmount = scanner.nextDouble();
+                    account.withdraw(withdrawAmount);
+                    break;
+                case 3:
+                    System.out.println("Current balance: " + account.getBalance());
+                    break;
+                case 4:
+                    System.out.println("Exiting the program...");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+}
+5. Demonstrate the difference between abstract class and interface by writing programs
+as well as in keypoints.
+ans-:
+1. Abstract Class Example:
+abstract class Animal {
+    abstract void makeSound();
+
+    void sleep() {
+        System.out.println("Zzz");
+    }
+}
+
+class Cat extends Animal {
+    void makeSound() {
+        System.out.println("Meow");
+    }
+}
+
+class Dog extends Animal {
+    void makeSound() {
+        System.out.println("Woof");
+    }
+}
+
+public class AbstractClassExample {
+    public static void main(String[] args) {
+        Cat cat = new Cat();
+        cat.makeSound();
+        cat.sleep();
+
+        Dog dog = new Dog();
+        dog.makeSound();
+        dog.sleep();
+    }
+}
+2. Interface Example:
+ans-:
+interface Vehicle {
+    void start();
+
+    void stop();
+}
+
+class Car implements Vehicle {
+    public void start() {
+        System.out.println("Car started");
+    }
+
+    public void stop() {
+        System.out.println("Car stopped");
+    }
+}
+
+class Bike implements Vehicle {
+    public void start() {
+        System.out.println("Bike started");
+    }
+
+    public void stop() {
+        System.out.println("Bike stopped");
+    }
+}
+
+public class InterfaceExample {
+    public static void main(String[] args) {
+        Car car = new Car();
+        car.start();
+        car.stop();
+
+        Bike bike = new Bike();
+        bike.start();
+        bike.stop();
+    }
+}
+Abstract Class:
+
+An abstract class is a class that cannot be instantiated.
+It can contain abstract methods (methods without a body) that must be implemented by its subclasses.
+It can also contain non-abstract methods with a default implementation that can be inherited by its subclasses.
+It allows defining common behavior and characteristics among its subclasses.
+It can have constructors and instance variables.
+A class can extend only one abstract class.
+Abstract classes are useful when you want to provide a common base implementation and enforce certain behavior in its subclasses.
+
+Interface:
+
+An interface is a contract specifying a set of methods that a class must implement.
+It cannot be instantiated directly.
+All methods in an interface are abstract and do not have a body.
+It does not allow constructors or instance variables (constants are allowed).
+A class can implement multiple interfaces.
+Interfaces are useful when you want to achieve multiple inheritances (since Java does not support multiple inheritance of classes).
+Interfaces are commonly
+
+6. Write a Java program that uses stream api to perform operations on a large data set,
+such as sorting or filtering the data.
+ans-:
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamAPIExample {
+    public static void main(String[] args) {
+        // Creating a list of integers
+        List<Integer> numbers = Arrays.asList(7, 2, 5, 1, 8, 3, 9, 4, 6);
+
+        // Sorting the numbers in ascending order
+        System.out.println("Sorted numbers:");
+        numbers.stream()
+               .sorted()
+               .forEach(System.out::println);
+
+        // Filtering even numbers
+        System.out.println("\nEven numbers:");
+        numbers.stream()
+               .filter(n -> n % 2 == 0)
+               .forEach(System.out::println);
+
+        // Summing all numbers
+        int sum = numbers.stream()
+                         .mapToInt(Integer::intValue)
+                         .sum();
+        System.out.println("\nSum of all numbers: " + sum);
+    }
+}
+7. Create a Java program that implements a binary search algorithm. The program
+should accept user input for the target value and search for it in a sorted array. The
+program should return the index of the target value if found or a message if not
+found.
+ans-:
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class BinarySearchExample {
+    public static int binarySearch(int[] array, int target) {
+        int left = 0;
+        int right = array.length - 1;
+
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            if (array[mid] == target) {
+                return mid; // Target found at index mid
+            } else if (array[mid] < target) {
+                left = mid + 1; // Target is in the right half
+            } else {
+                right = mid - 1; // Target is in the left half
+            }
+        }
+
+        return -1; // Target not found
+    }
+
+    public static void main(String[] args) {
+        int[] array = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+
+        System.out.println("Sorted Array: " + Arrays.toString(array));
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter the target value: ");
+        int target = scanner.nextInt();
+
+        int index = binarySearch(array, target);
+
+        if (index != -1) {
+            System.out.println("Target value found at index: " + index);
+        } else {
+            System.out.println("Target value not found in the array.");
+        }
+
+        scanner.close();
+    }
+}
+8. Write a Java program that creates two threads. The first thread should print even
+numbers between 1 and 10, and the second thread should print odd numbers
+between 1 and 10.
+ans-:
+public class EvenOddPrintingThreads {
+    public static void main(String[] args) {
+        Thread evenThread = new Thread(new EvenNumberPrinter());
+        Thread oddThread = new Thread(new OddNumberPrinter());
+
+        evenThread.start();
+        oddThread.start();
+    }
+}
+
+class EvenNumberPrinter implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 2; i <= 10; i += 2) {
+            System.out.println("Even Thread: " + i);
+        }
+    }
+}
+
+class OddNumberPrinter implements Runnable {
+    @Override
+    public void run() {
+        for (int i = 1; i <= 9; i += 2) {
+            System.out.println("Odd Thread: " + i);
+        }
+    }
+}
+output-:
+Even Thread: 2
+Odd Thread: 1
+Even Thread: 4
+Odd Thread: 3
+Even Thread: 6
+Odd Thread: 5
+Even Thread: 8
+Odd Thread: 7
+Even Thread: 10
+Odd Thread: 9
+
+9. Write a Java program that implements a producer-consumer model using
+multithreading. The program should have a producer thread that generates random
+numbers and adds them to a queue, and a consumer thread that reads numbers
+from the queue and calculates their sum. The program should use synchronization to
+ensure that the queue is accessed by only one thread at a time.
+
+ans-:
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Random;
+
+public class ProducerConsumerExample {
+    private static final int MAX_QUEUE_SIZE = 10;
+    private static final int NUM_VALUES_TO_PRODUCE = 20;
+
+    private static Queue<Integer> queue = new LinkedList<>();
+    private static Random random = new Random();
+
+    public static void main(String[] args) {
+        Thread producerThread = new Thread(new Producer());
+        Thread consumerThread = new Thread(new Consumer());
+
+        producerThread.start();
+        consumerThread.start();
+    }
+
+    static class Producer implements Runnable {
+        @Override
+        public void run() {
+            for (int i = 0; i < NUM_VALUES_TO_PRODUCE; i++) {
+                try {
+                    produce();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        private void produce() throws InterruptedException {
+            synchronized (queue) {
+                while (queue.size() == MAX_QUEUE_SIZE) {
+                    System.out.println("Queue is full. Producer is waiting...");
+                    queue.wait();
+                }
+
+                int value = random.nextInt(100);
+                queue.add(value);
+                System.out.println("Produced: " + value);
+
+                queue.notify(); // Notify consumer thread
+            }
+        }
+    }
+
+    static class Consumer implements Runnable {
+        @Override
+        public void run() {
+            int sum = 0;
+            for (int i = 0; i < NUM_VALUES_TO_PRODUCE; i++) {
+                try {
+                    sum += consume();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            System.out.println("Sum of consumed values: " + sum);
+        }
+
+        private int consume() throws InterruptedException {
+            synchronized (queue) {
+                while (queue.isEmpty()) {
+                    System.out.println("Queue is empty. Consumer is waiting...");
+                    queue.wait();
+                }
+
+                int value = queue.poll();
+                System.out.println("Consumed: " + value);
+
+                queue.notify(); // Notify producer thread
+
+                return value;
+            }
+        }
+    }
+}
+10. Write a Java program that reads a set of integers from the user and stores them in a
+List. The program should then find the second largest and second smallest elements
+in the List.
+ans-:
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Scanner;
+
+public class SecondLargestSmallestElements {
+    public static void main(String[] args) {
+        List<Integer> numbers = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of elements: ");
+        int count = scanner.nextInt();
+
+        System.out.println("Enter the elements:");
+        for (int i = 0; i < count; i++) {
+            int num = scanner.nextInt();
+            numbers.add(num);
+        }
+
+        int secondLargest = findSecondLargest(numbers);
+        int secondSmallest = findSecondSmallest(numbers);
+
+        System.out.println("Second Largest: " + secondLargest);
+        System.out.println("Second Smallest: " + secondSmallest);
+
+        scanner.close();
+    }
+
+    private static int findSecondLargest(List<Integer> numbers) {
+        if (numbers.size() < 2) {
+            throw new IllegalArgumentException("List should have at least 2 elements.");
+        }
+
+        Collections.sort(numbers, Collections.reverseOrder());
+        return numbers.get(1);
+    }
+
+    private static int findSecondSmallest(List<Integer> numbers) {
+        if (numbers.size() < 2) {
+            throw new IllegalArgumentException("List should have at least 2 elements.");
+        }
+
+        Collections.sort(numbers);
+        return numbers.get(1);
+    }
+}
+JDBC
+
+
+11. Write a Java program that connects to a MySQL database using JDBC. The program
+should read data from a table and display the results in the console.
+ans-:
+import java.sql.*;
+
+public class MySQLJDBCExample {
+    public static void main(String[] args) {
+        // JDBC connection parameters
+        String url = "jdbc:mysql://localhost:3306/mydatabase";
+        String username = "root";
+        String password = "maitri@321";
+
+        // SQL query
+        String query = "SELECT * FROM mytable";
+
+        try {
+            // Register the MySQL JDBC driver
+            Class.forName("com.mysql.cj.jdbc.Driver");
+
+            // Create a connection
+            Connection connection = DriverManager.getConnection(url, username, password);
+
+            // Create a statement
+            Statement statement = connection.createStatement();
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery(query);
+
+            // Process the query results
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+
+                System.out.println("ID: " + id + ", Name: " + name + ", Age: " + age);
+            }
+
+            // Close the resources
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (ClassNotFoundException | SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+12. Write a Java program that uses JDBC to implement a simple CRUD (create, read,
+update, delete) application. The program should allow users to add, view, update,
+and delete records in a MySQL database table.
+ans-:
+import java.sql.*;
+
+public class JDBCExample {
+    private static final String URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String USERNAME = "your-username";
+    private static final String PASSWORD = "your-password";
+
+    public static void main(String[] args) {
+        try {
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+            Statement statement = connection.createStatement();
+
+            // Create table if it doesn't exist
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS students (" +
+                    "id INT PRIMARY KEY AUTO_INCREMENT," +
+                    "name VARCHAR(100)," +
+                    "age INT)";
+            statement.executeUpdate(createTableQuery);
+
+            // Add a new record
+            String insertQuery = "INSERT INTO students (name, age) VALUES ('John Doe', 25)";
+            statement.executeUpdate(insertQuery);
+
+            // View records
+            String selectQuery = "SELECT * FROM students";
+            ResultSet resultSet = statement.executeQuery(selectQuery);
+
+            System.out.println("Records:");
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+
+                System.out.println("ID: " + id + ", Name: " + name + ", Age: " + age);
+            }
+
+            // Update a record
+            String updateQuery = "UPDATE students SET age = 26 WHERE name = 'John Doe'";
+            statement.executeUpdate(updateQuery);
+
+            // Delete a record
+            String deleteQuery = "DELETE FROM students WHERE name = 'John Doe'";
+            statement.executeUpdate(deleteQuery);
+
+            resultSet.close();
+            statement.close();
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+}
+13. Create a Java program that connects to a PostgreSQL database and executes a
+batch update. The program should read the input data from a file and insert it into the
+database using JDBC batch updates.
+ans-:
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class PostgreSQLBatchUpdateExample {
+    private static final String URL = "jdbc:postgresql://localhost:5432/mydatabase";
+    private static final String USERNAME = "your-username";
+    private static final String PASSWORD = "your-password";
+
+    public static void main(String[] args) {
+        try {
+            Connection connection = DriverManager.getConnection(URL, USERNAME, PASSWORD);
+
+            // Read input data from a file
+            String inputFile = "data.txt";
+            FileReader fileReader = new FileReader(inputFile);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            // Prepare the SQL statement for batch update
+            String insertQuery = "INSERT INTO users (name, email) VALUES (?, ?)";
+            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] data = line.split(",");
+                String name = data[0].trim();
+                String email = data[1].trim();
+
+                preparedStatement.setString(1, name);
+                preparedStatement.setString(2, email);
+
+                // Add the prepared statement to the batch
+                preparedStatement.addBatch();
+            }
+
+            // Execute the batch update
+            int[] updateCounts = preparedStatement.executeBatch();
+
+            System.out.println("Batch update completed. Updated rows: " + updateCounts.length);
+
+            bufferedReader.close();
+            preparedStatement.close();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+14. Create a Java servlet that reads the name of the user from a form and displays a
+welcome message on the web page. The servlet should use the GET method to read
+the input data from the user.
+ans-:
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class WelcomeServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Retrieve the name parameter from the request
+        String name = request.getParameter("name");
+
+        // Set the content type of the response
+        response.setContentType("text/html");
+
+        // Get the PrintWriter object from the response
+        PrintWriter out = response.getWriter();
+
+        // Write the HTML response
+        out.println("<html>");
+        out.println("<head><title>Welcome</title></head>");
+        out.println("<body>");
+        out.println("<h1>Welcome, " + name + "!</h1>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
+To test the servlet, you can create an HTML form that sends a GET request to the servlet with the user's name as a parameter. Here's an example HTML form:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome Form</title>
+</head>
+<body>
+    <form action="WelcomeServlet" method="GET">
+        <label for="name">Enter your name:</label>
+        <input type="text" id="name" name="name" required>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
+15. Write a Java servlet that reads the data from a MySQL database table and displays it
+in an HTML table on the web page. The servlet should use JDBC to connect to the
+database and retrieve the data.
+ans-:
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+public class DatabaseServlet extends HttpServlet {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/mydatabase";
+    private static final String DB_USER = "your-username";
+    private static final String DB_PASSWORD = "your-password";
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet resultSet = null;
+
+        try {
+            // Establish a database connection
+            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+
+            // Create a statement
+            statement = connection.createStatement();
+
+            // Execute the SQL query
+            String query = "SELECT * FROM mytable";
+            resultSet = statement.executeQuery(query);
+
+            // Set the content type of the response
+            response.setContentType("text/html");
+
+            // Get the PrintWriter object from the response
+            PrintWriter out = response.getWriter();
+
+            // Create an HTML response
+            StringBuilder html = new StringBuilder();
+            html.append("<html>");
+            html.append("<head><title>Database Table</title></head>");
+            html.append("<body>");
+            html.append("<table border=\"1\">");
+            html.append("<tr><th>ID</th><th>Name</th><th>Age</th></tr>");
+
+            // Process the result set and generate HTML table rows
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String name = resultSet.getString("name");
+                int age = resultSet.getInt("age");
+
+                html.append("<tr>");
+                html.append("<td>").append(id).append("</td>");
+                html.append("<td>").append(name).append("</td>");
+                html.append("<td>").append(age).append("</td>");
+                html.append("</tr>");
+            }
+
+            html.append("</table>");
+            html.append("</body>");
+            html.append("</html>");
+
+            // Write the HTML response
+            out.println(html.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the database connection and other resources
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+SERVLET
+16. Create a Java servlet that uses session management to maintain the state of the
+user across multiple requests. The servlet should store the user's name in a session
+object and display it on multiple pages of the web application.
+ans-:
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class SessionServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String name = request.getParameter("name");
+
+        HttpSession session = request.getSession();
+        session.setAttribute("username", name);
+
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+
+        out.println("<html>");
+        out.println("<head><title>Welcome</title></head>");
+        out.println("<body>");
+        out.println("<h1>Welcome, " + name + "!</h1>");
+        out.println("<a href=\"page1.html\">Page 1</a><br>");
+        out.println("<a href=\"page2.html\">Page 2</a>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
+In those HTML pages (page1.html and page2.html), you can retrieve the user's name from the session object using JavaScript or any server-side language you are using (e.g., JSP). Here's an example using JavaScript:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Page 1</title>
+    <script>
+        window.onload = function() {
+            var username = "<%= session.getAttribute("username") %>";
+            document.getElementById("username").textContent = username;
+        }
+    </script>
+</head>
+<body>
+    <h1>Welcome to Page 1</h1>
+    <p>User: <span id="username"></span></p>
+</body>
+</html>
+HIBERNATE
+
+18. Create a Java program that uses Hibernate to connect to a MySQL database and
+retrieve data from a table. The program should use Hibernate to map the table to a
+Java object and then display the data on the console.
+
+ans-:
+@Entity
+@Table(name = "employees")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private BigDecimal salary;
+
+    // Getters and setters
+}
+Then, use the session to query the database and retrieve the data.
+public class HibernateExample {
+    public static void main(String[] args) {
+        try (SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory()) {
+            Session session = sessionFactory.openSession();
+
+            List<Employee> employees = session.createQuery("FROM Employee", Employee.class).list();
+            for (Employee employee : employees) {
+                System.out.println("ID: " + employee.getId());
+                System.out.println("Name: " + employee.getName());
+                System.out.println("Salary: " + employee.getSalary());
+                System.out.println("--------------------");
+            }
+
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+19. Create a Java program that uses Hibernate to insert data into a MySQL database
+table. The program should use Hibernate to map the table to a Java object and then
+insert the data into the table. After inserting the data, the program should retrieve it
+from the database and display it on the console.
+
+ans-:
+@Entity
+@Table(name = "employees")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private BigDecimal salary;
+
+    // Getters and setters
+}
+Then, create an instance of the entity class, set its properties, and use the session to save the entity to the database.
+
+public class HibernateExample {
+    public static void main(String[] args) {
+        try (SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory()) {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+
+            Employee employee = new Employee();
+            employee.setName("John Doe");
+            employee.setSalary(BigDecimal.valueOf(5000));
+
+            session.save(employee);
+
+            transaction.commit();
+
+            List<Employee> employees = session.createQuery("FROM Employee", Employee.class).list();
+            for (Employee emp : employees) {
+                System.out.println("ID: " + emp.getId());
+                System.out.println("Name: " + emp.getName());
+                System.out.println("Salary: " + emp.getSalary());
+                System.out.println("--------------------");
+            }
+
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+20. The program should use Hibernate to map the table to a Java object and then update
+the data in the table. After updating the data, the program should retrieve it from the
+database and display it on the console.
+ans-:
+@Entity
+@Table(name = "employees")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private BigDecimal salary;
+
+    // Getters and setters
+}
+Then, retrieve the entity object to be updated, modify its properties, and use the session to update the entity in the database.
+public class HibernateExample {
+    public static void main(String[] args) {
+        try (SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory()) {
+            Session session = sessionFactory.openSession();
+            Transaction transaction = session.beginTransaction();
+
+            // Retrieve the entity to be updated
+            Employee employee = session.get(Employee.class, 1L);
+            if (employee != null) {
+                // Update the properties
+                employee.setName("John Smith");
+                employee.setSalary(BigDecimal.valueOf(6000));
+
+                session.update(employee);
+                transaction.commit();
+
+                // Retrieve and display the updated data
+                List<Employee> employees = session.createQuery("FROM Employee", Employee.class).list();
+                for (Employee emp : employees) {
+                    System.out.println("ID: " + emp.getId());
+                    System.out.println("Name: " + emp.getName());
+                    System.out.println("Salary: " + emp.getSalary());
+                    System.out.println("--------------------");
+                }
+            }
+
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+21. Create a Spring Boot application that inserts data into a MySQL database table using
+JPA and Hibernate. The application should use Spring Data JPA to map the table to a
+Java object and then insert the data into the table.
+ans-:
+@Entity
+@Table(name = "employees")
+public class Employee {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+    private BigDecimal salary;
+
+    // Getters and setters
+}
+//Create a Spring Data JPA repository interface that extends the JpaRepository interface. This interface will provide the necessary CRUD operations for your entity.
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
+}
+//Create a service class that uses the repository to insert data into the database. Autowire the repository in the service class and define a method to save an employee object.
+@Service
+public class EmployeeService {
+    private final EmployeeRepository employeeRepository;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository employeeRepository) {
+        this.employeeRepository = employeeRepository;
+    }
+
+    public Employee saveEmployee(Employee employee) {
+        return employeeRepository.save(employee);
+    }
+}
+//Create a controller class that handles HTTP requests. Autowire the service class in the controller and define a method to handle the request to insert employee data.
+@RestController
+@RequestMapping("/employees")
+public class EmployeeController {
+    private final EmployeeService employeeService;
+
+    @Autowired
+    public EmployeeController(EmployeeService employeeService) {
+        this.employeeService = employeeService;
+    }
+
+    @PostMapping
+    public Employee addEmployee(@RequestBody Employee employee) {
+        return employeeService.saveEmployee(employee);
+    }
+}
+22. Create a Spring Boot application that uses Spring Data JPA to retrieve data from a
+database. The application should have entities for users and orders, and should
+allow for querying orders by user.
+ans-:
+User entity:
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String name;
+
+    // Getters and setters
+}
+Order entity:
+@Entity
+@Table(name = "orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    private String product;
+
+    // Getters and setters
+}
+Create Spring Data JPA repositories for the user and order entities.
+User repository:
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+}
+Order repository:
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+    List<Order> findByUser(User user);
+}
+//Create a service class to handle business logic. Autowire the repositories in the service class and define methods for retrieving users and orders.
+@Service
+public class OrderService {
+    private final UserRepository userRepository;
+    private final OrderRepository orderRepository;
+
+    @Autowired
+    public OrderService(UserRepository userRepository, OrderRepository orderRepository) {
+        this.userRepository = userRepository;
+        this.orderRepository = orderRepository;
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<Order> getOrdersByUser(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found with ID: " + userId));
+        return orderRepository.findByUser(user);
+    }
+}
+//Create a controller class to handle HTTP requests. Autowire the service class in the controller and define endpoints for retrieving users and querying orders by user.
+@RestController
+@RequestMapping("/users")
+public class UserController {
+    private final OrderService orderService;
+
+    @Autowired
+    public UserController(OrderService orderService) {
+        this.orderService = orderService;
+    }
+
+    @GetMapping
+    public List<User> getAllUsers() {
+        return orderService.getAllUsers();
+    }
+
+    @GetMapping("/{userId}/orders")
+    public List<Order> getOrdersByUser(@PathVariable Long userId) {
+        return orderService.getOrdersByUser(userId);
+    }
+}
+
+23. Create a Spring MVC application that allows users to register and login. The
+application should have a registration form that accepts user details and a login form
+that authenticates users.
+ans-:
+//Create a User entity class that represents the user data. The entity class should have properties such as username, password, email, etc.
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotBlank
+    private String username;
+
+    @NotBlank
+    private String password;
+
+    @Email
+    @NotBlank
+    private String email;
+
+    // Getters and setters
+}
+//Create a UserRepository interface that extends JpaRepository to perform CRUD operations on the User entity.
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
+    User findByUsername(String username);
+}
+//Create a registration form (register.jsp) that allows users to enter their details such as username, password, and email. The form should be submitted to a controller endpoint.
+<form method="post" action="/register">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" name="email" required>
+    
+    <button type="submit">Register</button>
+</form>
+//Create a UserController class to handle the registration process. Autowire the UserRepository and implement a method to handle the registration form submission.
+
+@Controller
+public class UserController {
+    private final UserRepository userRepository;
+
+    @Autowired
+    public UserController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+        return "register";
+    }
+
+    @PostMapping("/register")
+    public String registerUser(@ModelAttribute("user") @Valid User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return "register";
+        }
+
+        // Save the user to the database
+        userRepository.save(user);
+
+        return "redirect:/login";
+    }
+}
+//Create a login form (login.jsp) that allows users to enter their username and password. The form should be submitted to a controller endpoint.
+<form method="post" action="/login">
+    <label for="username">Username:</label>
+    <input type="text" name="username" required>
+    
+    <label for="password">Password:</label>
+    <input type="password" name="password" required>
+    
+    <button type="submit">Login</button>
+</form>
+//Create a SecurityConfig class to configure Spring Security for authentication and authorization.
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(username -> userRepository.findByUsername(username))
+                .passwordEncoder(passwordEncoder());
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+            .authorizeRequests()
+                .antMatchers("/register").permitAll()
+                .anyRequest().authenticated()
+                .and()
+            .formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/dashboard")
+                .permitAll()
+                .and()
+            .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("/login")
+                .permitAll();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+}
+//Create a dashboard page (dashboard.jsp) that is accessible after successful login.
+<h2>Welcome, ${username}!</h2>
+
+<a href="/logout">Logout</a>
+
+24.Create a Spring Boot application that uses Spring MVC to create a REST API. The
+API should accept a JSON request with data and insert it into a MySQL database
+table using JPA and Hibernate. The application should use Spring Data JPA to map
+the table to a Java object and then insert the data into the table.
+
+ans-:
+//Configure the database connection properties in the application.properties file:
+spring.datasource.url=jdbc:mysql://localhost:3306/db_name
+spring.datasource.username=db_username
+spring.datasource.password=db_password
+spring.jpa.hibernate.ddl-auto=update
+
+//Create a model class that represents the data you want to insert into the database. Annotate the class with @Entity to map it to a database table, and use appropriate annotations to define the table columns and relationships.
+@Entity
+@Table(name = "your_table_name")
+public class YourModel {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Add your fields and getters/setters here
+
+}
+//Create a repository interface that extends JpaRepository to perform CRUD operations on your model class.
+@Repository
+public interface YourRepository extends JpaRepository<YourModel, Long> {
+}
+Create a REST controller class to handle the API endpoints for inserting data. Inject the repository and implement the necessary methods.
+@RestController
+@RequestMapping("/api")
+public class YourController {
+    private final YourRepository yourRepository;
+
+    public YourController(YourRepository yourRepository) {
+        this.yourRepository = yourRepository;
+    }
+
+    @PostMapping("/insert")
+    public YourModel insertData(@RequestBody YourModel model) {
+        return yourRepository.save(model);
+    }
+}
+Example JSON payload:
+{
+  "field1": "value1",
+  "field2": "value2"
+}
+25. Create a Spring Boot application that uses Spring AOP to log method calls. The
+application should have a service class with methods that perform operations. The
+application should use Spring AOP to log the method calls with input and output
+parameters to the console.
+ans-:
+//Create a service class that contains the methods you want to log. For example, let's create a UserService class with a getUserById method:
+@Service
+public class UserService {
+    public User getUserById(Long id) {
+        // Perform some logic to fetch user from the database
+        User user = // Fetch user from the database
+
+        return user;
+    }
+}
+//Create an aspect class that implements the logging logic using Spring AOP. Annotate the class with @Aspect and define pointcuts and advice for the methods you want to intercept and log. Let's create a LoggingAspect class:
+@Aspect
+@Component
+public class LoggingAspect {
+
+    @Before("execution(* com.example.app.UserService.*(..))")
+    public void logBefore(JoinPoint joinPoint) {
+        String methodName = joinPoint.getSignature().getName();
+        Object[] args = joinPoint.getArgs();
+
+        System.out.println("Method name: " + methodName);
+        System.out.println("Arguments: " + Arrays.toString(args));
+    }
+
+    @AfterReturning(pointcut = "execution(* com.example.app.UserService.*(..))", returning = "result")
+    public void logAfterReturning(JoinPoint joinPoint, Object result) {
+        String methodName = joinPoint.getSignature().getName();
+
+        System.out.println("Method name: " + methodName);
+        System.out.println("Returned value: " + result);
+    }
+}
+26. Create a Spring Boot application that exposes a REST API for managing a list of
+products. The API should allow for creating, updating, deleting, and retrieving
+products.
+ans-:
+//Create a model class that represents the product entity. Annotate the class with @Entity to map it to a database table, and use appropriate annotations to define the table columns.
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private double price;
+
+    // Add other fields, getters, and setters
+}
+//Create a repository interface that extends JpaRepository to perform CRUD operations on the product entity.
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+}
+//Create a service class that implements the business logic for managing products. Inject the repository and implement the necessary methods.
+@Service
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
+    }
+
+    public Product createProduct(Product product) {
+        return productRepository.save(product);
+    }
+
+    public Product updateProduct(Long id, Product product) {
+        Product existingProduct = getProductById(id);
+        existingProduct.setName(product.getName());
+        existingProduct.setPrice(product.getPrice());
+        // Update other fields if necessary
+
+        return productRepository.save(existingProduct);
+    }
+
+    public void deleteProduct(Long id) {
+        productRepository.deleteById(id);
+    }
+}
+//Create a REST controller class to handle the API endpoints for managing products. Inject the service and implement the necessary methods.
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+    }
+
+    @PostMapping
+    public Product createProduct(@RequestBody Product product) {
+        return productService.createProduct(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+        return productService.updateProduct(id, product);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Long id) {
+        productService.deleteProduct(id);
+    }
+}
+27. Create a Spring Boot application that uses Spring Cloud to register a service with
+Eureka Server. The application should expose a REST API for retrieving data from a
+database and the API should be discovered by Eureka Server.
+ans-:
+@SpringBootApplication
+@EnableDiscoveryClient
+public class ProductServiceApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ProductServiceApplication.class, args);
+    }
+}
+//Configure the connection to the Eureka Server by adding the following properties to your application.properties file:
+spring.application.name=product-service
+eureka.client.serviceUrl.defaultZone=http://localhost:8761/eureka/
+
+Create a model class that represents the product entity. Annotate the class with @Entity to map it to a database table, and use appropriate annotations to define the table columns.
+
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private double price;
+
+    // Add other fields, getters, and setters
+}
+//Create a repository interface that extends JpaRepository to perform CRUD operations on the product entity.
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+}
+//Create a service class that implements the business logic for retrieving products. Inject the repository and implement the necessary methods.
+@Service
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public Product getProductById(Long id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
+    }
+}
+//Create a REST controller class to handle the API endpoints for retrieving products. Inject the service and implement the necessary methods.
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/{id}")
+    public Product getProductById(@PathVariable Long id) {
+        return productService.getProductById(id);
+    }
+}
+28. Create a Spring Boot application that uses Spring Cloud Config Server to externalise
+configuration. The application should have a property file that defines properties for
+database connection and other application settings.
+ans-:
+//Enable the Config Server in your main application class by adding the @EnableConfigServer annotation.
+
+@SpringBootApplication
+@EnableConfigServer
+public class ConfigServerApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(ConfigServerApplication.class, args);
+    }
+}
+//Configure the Config Server properties in your application.properties file. Specify the Git repository URL that contains your configuration files.
+spring.application.name=config-server
+server.port=8888
+spring.cloud.config.server.git.uri=<git-repo-url>
+//Create a bootstrap.properties file in your application's resources directory. This file is used to specify the Config Server URL and the application name.
+spring.application.name=myapp
+spring.cloud.config.uri=http://localhost:8888
+Use the configuration properties in your application by injecting them using the @Value annotation or using the @ConfigurationProperties annotation.
+@RestController
+public class MyController {
+    @Value("${database.url}")
+    private String databaseUrl;
+
+    @GetMapping("/database-url")
+    public String getDatabaseUrl() {
+        return databaseUrl;
+    }
+}
+29. Create a Spring Boot application that uses Spring Data JPA to retrieve data from a
+database and expose it as a REST API. The API should allow for filtering, sorting,
+and paging.
+ans-:
+//Create a model class that represents your data entity. Annotate the class with @Entity to map it to a database table, and use appropriate annotations to define the table columns.
+@Entity
+@Table(name = "products")
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private double price;
+
+    // Add other fields, getters, and setters
+}
+//Create a repository interface that extends JpaRepository or any other appropriate repository interface provided by Spring Data JPA. This interface will handle the database operations for your entity.
+@Repository
+public interface ProductRepository extends JpaRepository<Product, Long> {
+}
+//Create a service class that implements the business logic for retrieving products. Inject the repository and implement the necessary methods.
+@Service
+public class ProductService {
+    private final ProductRepository productRepository;
+
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
+    }
+
+    public List<Product> getProductsByFilter(String name, double minPrice, double maxPrice) {
+        return productRepository.findByNameContainingAndPriceBetween(name, minPrice, maxPrice);
+    }
+
+    // Add other methods for sorting and paging as per your requirements
+}
+//Create a REST controller class to handle the API endpoints for retrieving products. Inject the service and implement the necessary methods.
+@RestController
+@RequestMapping("/api/products")
+public class ProductController {
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
+
+    @GetMapping
+    public List<Product> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
+    @GetMapping("/search")
+    public List<Product> getProductsByFilter(@RequestParam(required = false) String name,
+                                             @RequestParam(required = false) Double minPrice,
+                                             @RequestParam(required = false) Double maxPrice) {
+        return productService.getProductsByFilter(name, minPrice, maxPrice);
+    }
+
+    // Add other methods for sorting and paging as per your requirements
+}
+30. Create a Spring Boot application that uses Spring Cloud Circuit Breaker to handle
+failures in a REST API. The API should use a circuit breaker pattern to handle
+timeouts and other errors.
+ans-:
+//Create a service class that implements the business logic for your REST API. This service class will use a circuit breaker to handle failures. You can use Spring Cloud Circuit Breaker annotations such as @CircuitBreaker and @Fallback to define the circuit breaker behavior.
+@Service
+public class MyService {
+    @CircuitBreaker(fallbackMethod = "fallbackMethod")
+    public ResponseEntity<String> makeApiCall() {
+        // Make the API call here
+        // If the API call fails, the circuit breaker will open and the fallback method will be called
+        // Return the response entity
+    }
+
+    public ResponseEntity<String> fallbackMethod(Throwable throwable) {
+        // Fallback logic when the circuit breaker is open or encounters an error
+        // Return a fallback response entity
+    }
+}
+//Create a REST controller class that handles the API endpoints. Inject the service and define the necessary methods.
+@RestController
+@RequestMapping("/api")
+public class MyController {
+    private final MyService myService;
+
+    public MyController(MyService myService) {
+        this.myService = myService;
+    }
+
+    @GetMapping("/make-api-call")
+    public ResponseEntity<String> makeApiCall() {
+        return myService.makeApiCall();
+    }
+}
+//For Spring Cloud Netflix:
+@SpringBootApplication
+@EnableCircuitBreaker
+public class MyAppApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyAppApplication.class, args);
+    }
+}
+//For Spring Cloud Resilience4j:
+@SpringBootApplication
+@EnableCircuitBreaker
+public class MyAppApplication {
+    public static void main(String[] args) {
+        SpringApplication.run(MyAppApplication.class, args);
+    }
+}
+
